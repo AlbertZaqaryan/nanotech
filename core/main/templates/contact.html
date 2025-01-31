@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Կապ</title>
+    <link rel="stylesheet" href="{% static 'css/contact.css' %}">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+        <!-- Background Video -->
+        <video autoplay muted loop id="bg-video">
+            <source src="{% static 'videos/biotech.mp4' %}" type="video/mp4">
+            <!-- You can add more video formats for compatibility if needed -->
+            Your browser does not support the video tag.
+        </video>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'index' %}">Գլխավոր</a></li>
+                <li><a href="{% url 'about' %}">Մեր Մասին</a></li>
+                <li><a href="{% url 'contact' %}">Կապ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="contact-section">
+        <h1>Կապ</h1>
+        <div class="contact-container">
+            <!-- Կոնտակտային Տվյալներ -->
+            <div class="contact-info">
+                <h2>Մեր Կոնտակտային Տվյալները</h2>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt"></i> {{ info.address }}</li>
+                    <li><i class="fas fa-phone"></i> {{ info.phone }}</li>
+                    <li><i class="fas fa-envelope"></i> {{ info.email }}</li>
+                </ul>
+                <div class="social-links">
+                    <a href="{{ info.fb }}"><i class="fab fa-facebook"></i></a>
+                    <a href="{{ info.ins }}"><i class="fab fa-instagram"></i></a>
+                    <a href="{{ info.X }}"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+
+            <!-- Հաղորդագրություն Ուղարկելու Ձև -->
+            <div class="contact-form">
+                <h2>Ուղարկել Հաղորդագրություն</h2>
+                <form id="contactForm" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="name">Անուն</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Էլ. Փոստ</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Հաղորդագրություն</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit">Ուղարկել</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Մեր Կազմակերպությունը: Բոլոր իրավունքները պաշտպանված են:</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Մեր Մասին</title>
+    <link rel="stylesheet" href="{% static 'css/about.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'index' %}">Գլխավոր</a></li>
+                <li><a href="{% url 'about' %}">Մեր Մասին</a></li>
+                <li><a href="{% url 'contact' %}">Կապ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="about-section">
+        <div class="about-content">
+            <h1>{{ about.title }}</h1>
+            <p>
+                {{ about.text1 }}
+            </p>
+            <p>
+                {{ about.text2 }}
+            </p>
+            <button id="learnMoreBtn">{{ about.button_name }}</button>
+        </div>
+        <div class="about-image">
+            <img src="{{ about.image.url }}" alt="Մեր թիմը">
+        </div>
+    </section>
+
+    <section class="team-section">
+        <h2>Մեր Թիմը</h2>
+        <div class="team-members">
+            {% for i in team_list %}
+            <div class="member">
+                <img src="{{ i.img.url }}"width ="200" height="200" alt="Անուն Ազգանուն">
+                <h3>{{ i.name }}</h3>
+                <p>{{ i.position }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Մեր Կազմակերպությունը: Բոլոր իրավունքները պաշտպանված են:</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+<script>
+    // Իմանալ ավելին կոճակի համար
+document.getElementById('learnMoreBtn').addEventListener('click', function() {
+    alert('Շնորհակալություն հետաքրքրության համար: Մենք շատ շուտով կավելացնենք ավելի մանրամասն տեղեկություն:');
+});
+
+// Թիմի անդամների համար hover էֆեկտ
+const members = document.querySelectorAll('.member');
+members.forEach(member => {
+    member.addEventListener('mouseover', () => {
+        member.style.transform = 'translateY(-10px)';
+        member.style.transition = 'transform 0.3s ease';
+    });
+    member.addEventListener('mouseout', () => {
+        member.style.transform = 'translateY(0)';
+    });
+});
+</script>

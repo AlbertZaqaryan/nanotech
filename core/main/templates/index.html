@@ -1,0 +1,141 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Անունը</title>
+    <!-- FontAwesome for Social Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+
+</head>
+<body>
+    <header>
+        <!-- Լոգոն -->
+        <div class="logo">
+            <img src="../static/images/logo.png" alt="Լոգո">
+        </div>
+        <!-- Նավիգացիա և սոցիալական ցանցեր -->
+        <nav>
+            <ul>
+                <li><a href="{% url 'index' %}">ԳԼԽԱՎՈՐ</a></li>
+                <li><a href="{% url 'about' %}">ՄԵՐ ՄԱՍԻՆ</a></li>
+                <li><a href="{% url 'contact' %}">ԿԱՊ</a></li>
+                <li><a href="https://www.youtube.com/watch?v=Ap-UM1O9RBU">ՈԻՂԻՂ ՄԻԱՑՈՒՄ</a></li>
+            </ul>
+            <div class="social-icons">
+                <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+                <a href="https://tiktok.com" target="_blank"><i class="fab fa-tiktok"></i></a>
+                <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+            </div>
+        </nav>
+        <!-- Ժամ -->
+        <div class="clock" id="clock">00:00:00</div>
+    </header>
+
+    <!-- Սլայդեր -->
+    <section id="home">
+        <div class="slider">
+            <div class="slides">
+                {% for i in slider_list %}
+                <div class="slide">
+                    <img src="{{ i.image.url }}" width="300" height="550" alt="Slide {{ i.id }}">
+                    <div class="slide-content">
+                        <h2>{{ i.title }}</h2>
+                        <p>{{ i.text }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+               
+            </div>
+            <!-- Սլայդերի կառավարում -->
+            <div class="slider-controls">
+                <button class="prev" onclick="prevSlide()">&#10094;</button>
+                <button class="next" onclick="nextSlide()">&#10095;</button>
+            </div>
+        </div>
+    </section>
+    
+ 
+
+    <section id="contact">
+        <h2>Կապ</h2>
+        <p>Եթե ունեք հարցեր կամ առաջարկություններ, խնդրում ենք կապնվել մեզ հետ: Մենք պատրաստ ենք պատասխանել ձեր բոլոր հարցերին:</p>
+        <p><strong>Հասցե:</strong> Երևանի 1-ին փողոց, Երևան, Հայաստան</p>
+        <p><strong>Էլ. Փոստ:</strong> info@example.com</p>
+        <p><strong>Հեռախոս:</strong> +374 10 123456</p>
+        <p><strong>Աշխատանքային Ժամեր:</strong> Երկ-Ուրբ, 09:00 - 18:00</p>
+    </section>
+    <footer>
+       
+        <!-- Սոցիալական ցանցերի պատկերակներ ֆուտերում -->
+        <div class="social-icons">
+            <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://tiktok.com" target="_blank"><i class="fab fa-tiktok"></i></a>
+            <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        // Ժամի լոգիկա
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        setInterval(updateClock, 1000); // Ժամը թարմացնել ամեն վայրկյան
+        updateClock(); // Առաջին անգամ ցույց տալ ժամը
+
+        // Սլայդերի լոգիկա
+        let currentSlide = 0;
+        const slides = document.querySelector('.slides');
+        const totalSlides = document.querySelectorAll('.slide').length;
+
+        function showSlide(index) {
+            if (index >= totalSlides) {
+                currentSlide = 0;
+            } else if (index < 0) {
+                currentSlide = totalSlides - 1;
+            } else {
+                currentSlide = index;
+            }
+            slides.style.transform = `translateX(${-currentSlide * 100}%)`;
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            showSlide(currentSlide - 1);
+        }
+
+        // Ավտոմատ սլայդեր
+        setInterval(nextSlide, 5000); // Յուրաքանչյուր 5 վայրկյանը մեկ
+
+        // Բաժինների ցուցադրում սկրոլի ժամանակ
+        document.addEventListener('DOMContentLoaded', function () {
+            const sections = document.querySelectorAll('section');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
